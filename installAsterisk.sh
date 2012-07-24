@@ -102,16 +102,12 @@ chown -R asterisk:asterisk /var/log/asterisk
 chown -R asterisk:asterisk /var/lib/php/session/
 chown -R asterisk:asterisk /var/lib/asterisk
 
-
-cat /etc/httpd/conf/httpd.conf | 
-	sed -E "s/AllowOverride None/AllowOverride All/g" | 
-	sed -E "s/User apache/User asterisk/g" | 
-	sed -E "s/Group apache/Group asterisk/g" | 
-	sed -E "s/\#ServerName www.example.com\:80/ServerName $HOSTNAME\:80/g" > httpd.conf; 
-
-cp httpd.conf /etc/httpd/conf/httpd.conf; 
-chmod +rw /etc/httpd/conf/httpd.conf   
-
+sed -i -e "s/AllowOverride None/AllowOverride All/g" \
+       -e "s/User apache/User asterisk/g" \
+       -e "s/Group apache/Group asterisk/g" \
+       -e "s/\#ServerName www.example.com\:80/ServerName $HOSTNAME\:80/g" \
+   /etc/httpd/conf/httpd.conf
+ 
 service httpd start
 service sendmail start
 chkconfig httpd on
