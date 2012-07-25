@@ -153,7 +153,7 @@ read
 export CMDSTUB="/var/lib/asterisk/bin/module_admin --repos standard,unsupported,commercial,extended"
 export CMDSTUB_SAFE="\/var\/lib\/asterisk\/bin\/module_admin --repos standard,unsupported,commercial,extended"
 
-$CMDSTUB listonline | sed -E -e "1,4 d" -e "s/([^ ]+).+/echo\necho \"#### \1 ####\"\n$CMDSTUB_SAFE install \1\n\n/" > getmods.sh
+$CMDSTUB listonline | sed -E -e "1,4 d" -e "s/([^ ]+).+/echo\necho \"#### \1 ####\"\n$CMDSTUB_SAFE download \1\n$CMDSTUB_SAFE install \1\n\n/" > getmods.sh
 
 chmod +x getmods.sh
 
