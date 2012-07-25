@@ -147,7 +147,6 @@ read
 /var/lib/asterisk/bin/module_admin reload
 /var/lib/asterisk/bin/module_admin --repos standard,unsupported,extended,commercial download sysadmin
 /var/lib/asterisk/bin/module_admin --repos standard,unsupported,extended,commercial install sysadmin
-/var/lib/asterisk/bin/module_admin enable sysadmin
 /var/lib/asterisk/bin/module_admin reload
 
 export CMDSTUB="/var/lib/asterisk/bin/module_admin --repos standard,unsupported,commercial,extended"
