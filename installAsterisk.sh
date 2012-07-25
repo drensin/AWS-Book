@@ -147,35 +147,20 @@ read
 /var/lib/asterisk/bin/module_admin reload
 /var/lib/asterisk/bin/module_admin --repos standard,unsupported,extended,commercial download sysadmin
 /var/lib/asterisk/bin/module_admin --repos standard,unsupported,extended,commercial install sysadmin
+/var/lib/asterisk/bin/module_admin enable sysadmin
 /var/lib/asterisk/bin/module_admin reload
 
-/var/lib/asterisk/bin/module_admin --repos standard,unsupported,extended,commercial listonline |
-	cut -f1 -d" " | 
-	sed -E "s/Mod.*//g" | 
-	sed -E "s/\-+//g" | 
-	grep "[a-z]" | 
-	sed -E "s/(.+)/\/var\/lib\/asterisk\/bin\/module_admin \-\-repos standard,unsupported,extended,commercial download \1/" > getmods.sh;
+export CMDSTUB="/var/lib/asterisk/bin/module_admin --repos standard,unsupported,commercial,extended"
+export CMDSTUB_SAFE="\/var\/lib\/asterisk\/bin\/module_admin --repos standard,unsupported,commercial,extended"
 
-/var/lib/asterisk/bin/module_admin --repos standard,unsupported,extended,commercial listonline | 
-	cut -f1 -d" " | 
-	sed -E "s/Mod.*//g" | 
-	sed -E "s/\-+//g" | 
-	grep "[a-z]" | 
-	sed -E "s/(.+)/\/var\/lib\/asterisk\/bin\/module_admin \-\-repos standard,unsupported,extended,commercial install \1/" >> getmods.sh;
+$CMDSTUB listonline | sed -E -e "1,4 d" -e "s/([^ ]+).+/echo\necho \"#### \1 ####\"\n$CMDSTUB_SAFE install \1\n\n/" > getmods.sh
 
 chmod +x getmods.sh
+
+./getmods.sh
 ./getmods.sh
 
-/var/lib/asterisk/bin/module_admin --repos standard,unsupported,extended,commercial listonline | 
-	cut -f1 -d" " | 
-	sed -E "s/misdn//g" | 
-	sed -E "s/Mod.*//g" | 
-	sed -E "s/\-+//g" | 
-	grep "[a-z]" | 
-	sed -E "s/(.+)/\/var\/lib\/asterisk\/bin\/module_admin \-\-repos standard,unsupported,extended,commercial install \1/" > getmods.sh;
-
-chmod +x getmods.sh
-./getmods.sh
+rm -f ./getmods.sh
 
 /var/lib/asterisk/bin/module_admin reload
 
